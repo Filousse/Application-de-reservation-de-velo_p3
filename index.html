@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="description" content="Application web de réservation de vélo en libre service - Toulouse: Projet 3 DWJ.">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="" href="">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600i,800&display=swap" rel="stylesheet">
+    <title>Application web de réservation de vélo en libre service - Toulouse: Projet 3 DWJ.</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="  crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"  integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="  crossorigin=""></script>
+</head>
+
+<body>
+<!-- HEADER -->
+    <header class="Header">
+        <h1 class="LogoTitle"><i class="fas fa-bicycle"></i>  Véloville  <i class="fas fa-bicycle"></i></h1>
+        <p class="TextTitle">Application web de réservation de vélo en libre service à Toulouse</p>
+    </header>
+<!-- SLIDER -->
+    <div class="SlideTitleContent">
+        <h1 class="SliderTitle">Mode d'emploi :</h1>
+    </div>
+    <section class="SectionSlider">
+<!-- CLASS SLIDER.JS  -->
+        <div class="SliderBox" id="SliderBox">
+                <div class="BoxButton">
+                      <div class="Button previous" id="ButtonLeft"><i class="fas fa-chevron-circle-left"></i></div>
+                      <div class="ContentButton">
+                          <div class="Button pause" id="pause"><i class="fas fa-pause-circle"></i></div>
+                          <div class="Button play" id="play"><i class="fas fa-play-circle"></i></div>
+                      </div>
+                      <div class="Button next" id="ButtonRight"><i class="fas fa-chevron-circle-right"></i></div>
+                </div>
+                <div class="Slide" id="Slide-1">
+                      <div class="SlideImage">
+                          <i class="fas fa-map-marker"></i>
+                      </div>
+                      <div class="SlideText">
+                          <h3>Étape 1</h3>
+                          <p>Sélectionnez une station sur la carte pour afficher sa localisation, ces vélos et ces emplacements disponibles.</p>
+                      </div>
+                </div>
+                <div class="Slide" id="Slide-2">
+                      <div class="SlideImage">
+                          <i class="fas fa-info-circle"></i>
+                      </div>
+                      <div class="SlideText">
+                          <h3>Étape 2</h3>
+                          <p>Vérifiez les informations de la station, identifiez-vous et réservez un vélo en cliquant sur "réservation".</p>
+                      </div>
+                </div>
+                <div class="Slide" id="Slide-3">
+                      <div class="SlideImage">
+                          <i class="fas fa-signature"></i>
+                      </div>
+                      <div class="SlideText">
+                          <h3>Étape 3</h3>
+                          <p>Confirmez votre identité en signant et réservez votre "Véloville" en cliquant sur "Valider".</p>
+                      </div>
+                </div>
+                <div class="Slide" id="Slide-4">
+                      <div class="SlideImage">
+                          <i class="fas fa-user-clock"></i>
+                      </div>
+                      <div class="SlideText">
+                          <h3>Étape 4</h3>
+                          <p>Allez à la station récupérer votre "Véloville". Il est réservé pendant 20 minutes.</p>
+                      </div>
+                </div>
+        </div>
+    </section>
+<!-- MAP -->
+    <section class="SectionMap" id="SectionMap">
+          <div class="Map" id="Map"></div>
+          <div class="InfosMapBox" >
+                <div class="InfosStationContent" id="InfosStationContent">
+                    <h2>Détails de la station:</h2>
+                    <h5 class="TitleStation">.</h5>
+                    <h5 class="Address" id = "Address">.</h5>
+                    <p> Statut de la station : <span class="ValeurStatus"> </span></p>
+                    <p>Emplacements libres : <span class="NbPlaces" id="NbPlaces"></span></p>
+                    <p> Vélos disponibles : <span class="NbBikes" id="NbBikes"></span></p>
+                    <h2>Veuillez vous identifier:</h2>
+                    <label class="TitleIdentifcation">Nom:</label><br>
+                    <input title="valuenom" type="text" name="valueNoms" id="ValueNoms" required minlength="2" maxlength="35" size="30" placeholder="Nom de famille" spellcheck="true"/>
+                    <br>
+                    <label class="TitleIdentifcation">Prénom:</label><br>
+                    <input title="valueprenom" type="text" name="valueprenom" id="ValuePrenom" required minlength="2" maxlength="35" size="30" placeholder="Prénom" />
+                    <br><br>
+                    <button class="ButtonReservation" id="ButtonReservation">Réserver</button>
+                </div>
+                <div class="SignatureContent" id ="SignatureContent">
+                    <h3>Signez dans le cadre ci-dessous:</h3>
+                    <canvas class="Canvas" id="Canvas" width="300" height="300">
+                    </canvas>
+                    <div class = "BoxButtonSignature" id="BoxButtonSignature">
+                        <button class="ButtonClear" id="Clear">Effacer</button>
+                        <button class="ButtonSignature" id="ButtonSignature">Valider</button>
+                    </div>
+                </div>
+          </div>
+    </section>
+<!-- RESERVATION -->
+    <section class="SectionReservation" id="SectionReservation">
+          <div class="ReservationBox">
+                <div class="DefaultTextResevation" id ="DefaultTextResevation">
+                      <h2>Vous n'avez pas encore réservé de vélo!</h2>
+                </div>
+                <div class="TextReservation" id ="TextReservation">
+                      <h2 class="ReservationData">Votre réservation est effectuée!</h2>
+                      <h3 class="ReservationData">Noms de la station:  <span id="NameStorage"></span></h3>
+                      <h3 class="ReservationData">Statut:  <span id="StatutStorage"></span></h3>
+                      <h2 class="ReservationData">Adresse:  <span id="AddressStorage"></span></h2>
+                      <h1 class="ReservationData"id = "Timer"></h1>
+                </div>
+          </div>
+    </section>
+<!-- FOOTER -->
+    <footer class="Footer">
+          <h3>Application Web: Carte interactive de location de vélos</h3>
+          <span class="FooterText">Formation OpenClassRooms 2019 - Developpeur Web Junior: Projet3 - Thibault Brasseur</span>
+    </footer>
+<!-- SCRIPT -->
+    <script src="slider.js"></script>
+    <script src="station.js"></script>
+    <script src="map.js"></script>
+    <script src="reservation.js"></script>
+    <script src="canvas.js"></script>
+  </body>
+</html>
